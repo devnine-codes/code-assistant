@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'checkstyle' // Checkstyle 플러그인 추가
+}
+
+group = 'com.devnine'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.projectlombok:lombok:1.18.28'
+	annotationProcessor 'org.projectlombok:lombok:1.18.28'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	implementation 'com.github.javaparser:javaparser-core:3.25.4'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+}
+
+checkstyle {
+	toolVersion = '8.41' // Checkstyle 버전
+}
+
+tasks.withType(Checkstyle).configureEach {
+	reports {
+		html.required.set(true) // HTML 리포트 생성 설정
+		xml.required.set(false) // XML 리포트 비활성화 설정
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
